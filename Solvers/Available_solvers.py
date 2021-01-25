@@ -1,6 +1,6 @@
 from Solvers.DQN import DQN
 from Solvers.Monte_Carlo import MonteCarlo, OffPolicyMC
-from Solvers.Policy_iteration import PolicyIteration
+from Solvers.Policy_Iteration import PolicyIteration
 from Solvers.Q_Learning import ApproxQLearning
 from Solvers.Q_Learning import QLearning
 from Solvers.Random_Walk import RandomWalk
