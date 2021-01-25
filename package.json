@@ -1,0 +1,23 @@
+{
+  "name": "csce_689",
+  "version": "1.0.0",
+  "description": "Everything is detailed in the `documentation/SETUP.md`!",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeff-hykin/csce_689.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jeff-hykin/csce_689/issues"
+  },
+  "homepage": "https://github.com/jeff-hykin/csce_689#readme"
+}

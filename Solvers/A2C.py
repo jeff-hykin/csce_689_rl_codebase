@@ -21,7 +21,7 @@ def actor_loss(deltas):
         ################################
         #   YOUR IMPLEMENTATION HERE   #
         ################################
-        
+        pass        
 
     return loss
         

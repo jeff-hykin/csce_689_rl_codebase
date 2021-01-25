@@ -24,7 +24,7 @@ class MonteCarlo(AbstractSolver):
         #   YOUR IMPLEMENTATION HERE   #
         # Add required fields          #
         ################################
-        
+        pass        
 
     def train_episode(self):
         """
@@ -43,7 +43,7 @@ class MonteCarlo(AbstractSolver):
         ################################
         #   YOUR IMPLEMENTATION HERE   #
         ################################
-
+        pass
         
     def __str__(self):
         return "Monte Carlo"
@@ -69,7 +69,7 @@ class MonteCarlo(AbstractSolver):
             ################################
             #   YOUR IMPLEMENTATION HERE   #
             ################################
-
+            pass
 
         return policy_fn
 
@@ -86,7 +86,7 @@ class MonteCarlo(AbstractSolver):
             ################################
             #   YOUR IMPLEMENTATION HERE   #
             ################################
-
+            pass
         return policy_fn
 
     def plot(self,stats):
@@ -130,7 +130,7 @@ class OffPolicyMC(MonteCarlo):
         ################################
         #   YOUR IMPLEMENTATION HERE   #
         ################################
-        
+        pass        
         
     def create_random_policy(self):
         """

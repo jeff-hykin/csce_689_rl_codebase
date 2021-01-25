@@ -18,7 +18,7 @@ def pg_loss(rewards):
         ################################
         #   YOUR IMPLEMENTATION HERE   #
         ################################
-        
+        pass        
         
     return loss
 
@@ -75,7 +75,7 @@ class Reinforce(AbstractSolver):
         ################################
         #   YOUR IMPLEMENTATION HERE   #
         ################################
-        
+        pass        
 
     def __str__(self):
         return "REINFORCE"
