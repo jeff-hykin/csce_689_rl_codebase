@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+python run.py -s vi -d Gridworld -e 100 -g 0.9 
