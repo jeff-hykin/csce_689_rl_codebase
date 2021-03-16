@@ -1,6 +1,12 @@
+# Licensing Information:  You are free to use or extend this codebase for
+# educational purposes provided that (1) you do not distribute or publish
+# solutions, (2) you retain this notice, and (3) you provide the following
+# attribution:
+# This CSCE-689 RL assignment codebase was developed at Texas A&M University.
+# The core code base was developed by Guni Sharon (guni@tamu.edu).
+
 import numpy as np
 import heapq
-
 from Solvers.Abstract_Solver import AbstractSolver, Statistics
 
 
@@ -23,7 +29,7 @@ class ValueIteration(AbstractSolver):
                     env.nS is a number of states in the environment.
                     env.nA is a number of actions in the environment.
                 self.options.gamma: Gamma discount factor.
-            """
+        """
 
         # Update each state...
         for s in range(self.env.nS):
@@ -33,7 +39,8 @@ class ValueIteration(AbstractSolver):
             ################################
             #   YOUR IMPLEMENTATION HERE   #
             ################################
-            pass
+
+
         # In DP methods we don't interact with the environment so we will set the reward to be the sum of state values
         # and the number of steps to -1 representing an invalid value
         self.statistics[Statistics.Rewards.value] = np.sum(self.V)
@@ -58,7 +65,8 @@ class ValueIteration(AbstractSolver):
             ################################
             #   YOUR IMPLEMENTATION HERE   #
             ################################
-            pass
+
+
         return policy_fn
 
 
@@ -107,7 +115,8 @@ class AsynchVI(ValueIteration):
         # Do a one-step lookahead to find the best action       #
         # Update the value function. Ref: Sutton book eq. 4.10. #
         #########################################################
-        
+
+
         # In DP methods we don't interact with the environment so we will set the reward to be the sum of state values
         # and the number of steps to -1 representing an invalid value
         self.statistics[Statistics.Rewards.value] = np.sum(self.V)

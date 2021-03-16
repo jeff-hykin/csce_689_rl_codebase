@@ -1,9 +1,15 @@
+# Licensing Information:  You are free to use or extend this codebase for
+# educational purposes provided that (1) you do not distribute or publish
+# solutions, (2) you retain this notice, and (3) you provide the following
+# attribution:
+# This CSCE-689 RL assignment codebase was developed at Texas A&M University.
+# The core code base was developed by Guni Sharon (guni@tamu.edu).
+
 from collections import defaultdict, OrderedDict
-
 import numpy as np
-
 from Solvers.Abstract_Solver import AbstractSolver
 from lib import plotting
+#env = Blackjack-v0
 
 
 class MonteCarlo(AbstractSolver):
@@ -18,13 +24,12 @@ class MonteCarlo(AbstractSolver):
         # The final action-value function.
         # A nested dictionary that maps state -> (action -> action-value).
         self.Q = defaultdict(lambda: np.zeros(env.action_space.n))
-        self.env = env
 
         ################################
         #   YOUR IMPLEMENTATION HERE   #
         # Add required fields          #
         ################################
-        pass        
+
 
     def train_episode(self):
         """
@@ -43,8 +48,8 @@ class MonteCarlo(AbstractSolver):
         ################################
         #   YOUR IMPLEMENTATION HERE   #
         ################################
-        pass
-        
+
+
     def __str__(self):
         return "Monte Carlo"
 
@@ -69,7 +74,7 @@ class MonteCarlo(AbstractSolver):
             ################################
             #   YOUR IMPLEMENTATION HERE   #
             ################################
-            pass
+
 
         return policy_fn
 
@@ -86,7 +91,8 @@ class MonteCarlo(AbstractSolver):
             ################################
             #   YOUR IMPLEMENTATION HERE   #
             ################################
-            pass
+
+
         return policy_fn
 
     def plot(self,stats):
@@ -130,8 +136,8 @@ class OffPolicyMC(MonteCarlo):
         ################################
         #   YOUR IMPLEMENTATION HERE   #
         ################################
-        pass        
-        
+
+
     def create_random_policy(self):
         """
         Creates a random policy function.

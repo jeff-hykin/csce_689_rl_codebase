@@ -1,3 +1,10 @@
+# Licensing Information:  You are free to use or extend this codebase for
+# educational purposes provided that (1) you do not distribute or publish
+# solutions, (2) you retain this notice, and (3) you provide the following
+# attribution:
+# This CSCE-689 RL assignment codebase was developed at Texas A&M University.
+# The core code base was developed by Guni Sharon (guni@tamu.edu).
+
 import os
 import random
 from collections import deque
@@ -8,7 +15,6 @@ from keras.models import Sequential
 from keras.optimizers import Adam
 from keras.losses import huber_loss
 import numpy as np
-
 from Solvers.Abstract_Solver import AbstractSolver
 from lib import plotting
 
@@ -20,23 +26,24 @@ class DQN(AbstractSolver):
         super().__init__(env,options)
         self.model = self._build_model()
         self.target_model = self._build_model()
+        self.state_size = self.env.observation_space.shape[0]
+        self.action_size = self.env.action_space.n
         ################################
         #   YOUR IMPLEMENTATION HERE   #
         # Add required fields          #
         ################################
-        pass
+
 
     def _build_model(self):
-        state_size = self.env.observation_space.shape[0]
-        action_size = self.env.action_space.n
         layers = self.options.layers
         # Neural Net for Deep-Q learning Model
         model = Sequential()
 
-        model.add(Dense(layers[0], input_dim=state_size, activation='relu'))
-        for l in layers:
-            model.add(Dense(l, activation='relu'))
-        model.add(Dense(action_size, activation='linear'))
+        model.add(Dense(layers[0], input_dim=self.state_size, activation='relu'))
+        if len(layers) > 1:
+            for l in layers[1:]:
+                model.add(Dense(l, activation='relu'))
+        model.add(Dense(self.action_size, activation='linear'))
         model.compile(loss=huber_loss,
                       optimizer=Adam(lr=self.options.alpha))
         return model
@@ -59,7 +66,7 @@ class DQN(AbstractSolver):
             ################################
             #   YOUR IMPLEMENTATION HERE   #
             ################################
-            pass
+
 
         return policy_fn
 
@@ -91,7 +98,7 @@ class DQN(AbstractSolver):
         ################################
         #   YOUR IMPLEMENTATION HERE   #
         ################################
-        pass                
+
 
     def __str__(self):
         return "DQN"
@@ -114,6 +121,6 @@ class DQN(AbstractSolver):
             ################################
             #   YOUR IMPLEMENTATION HERE   #
             ################################
-            pass
+
 
         return policy_fn

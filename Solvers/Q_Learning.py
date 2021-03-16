@@ -1,11 +1,16 @@
-from collections import defaultdict
+# Licensing Information:  You are free to use or extend this codebase for
+# educational purposes provided that (1) you do not distribute or publish
+# solutions, (2) you retain this notice, and (3) you provide the following
+# attribution:
+# This CSCE-689 RL assignment codebase was developed at Texas A&M University.
+# The core code base was developed by Guni Sharon (guni@tamu.edu).
 
+from collections import defaultdict
 import numpy as np
 import sklearn.pipeline
 import sklearn.preprocessing
 from sklearn.kernel_approximation import RBFSampler
 from sklearn.linear_model import SGDRegressor
-
 from Solvers.Abstract_Solver import AbstractSolver
 from lib import plotting
 
@@ -42,7 +47,7 @@ class QLearning(AbstractSolver):
         ################################
         #   YOUR IMPLEMENTATION HERE   #
         ################################
-        pass
+
 
     def __str__(self):
         return "Q-Learning"
@@ -64,7 +69,7 @@ class QLearning(AbstractSolver):
             ################################
             #   YOUR IMPLEMENTATION HERE   #
             ################################
-            pass
+
 
         return policy_fn
 
@@ -83,7 +88,7 @@ class QLearning(AbstractSolver):
             ################################
             #   YOUR IMPLEMENTATION HERE   #
             ################################
-            pass
+
 
         return policy_fn
 
@@ -114,8 +119,8 @@ class ApproxQLearning(QLearning):
         ################################
         #   YOUR IMPLEMENTATION HERE   #
         ################################
-        pass
-            
+
+
     def __str__(self):
         return "Approx Q-Learning"
 
@@ -133,7 +138,7 @@ class ApproxQLearning(QLearning):
             ################################
             #   YOUR IMPLEMENTATION HERE   #
             ################################
-            pass
+
 
         return policy_fn
 
@@ -157,8 +162,8 @@ class ApproxQLearning(QLearning):
             ################################
             #   YOUR IMPLEMENTATION HERE   #
             ################################
-            pass
-            
+
+
         return policy_fn
 
     def plot(self, stats):
@@ -222,7 +227,7 @@ class Estimator:
 
         """
         features = self.featurize_state(s)
-        if not a:
+        if a is None:
             return np.array([m.predict([features])[0] for m in self.models])
         else:
             return self.models[a].predict([features])[0]

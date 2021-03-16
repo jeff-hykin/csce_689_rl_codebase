@@ -1,3 +1,10 @@
+# Licensing Information:  You are free to use or extend this codebase for
+# educational purposes provided that (1) you do not distribute or publish
+# solutions, (2) you retain this notice, and (3) you provide the following
+# attribution:
+# This CSCE-689 RL assignment codebase was developed at Texas A&M University.
+# The core code base was developed by Guni Sharon (guni@tamu.edu).
+
 import gym
 import optparse
 import sys
@@ -19,7 +26,7 @@ from lib.envs.windy_gridworld import WindyGridworldEnv
 
 def readCommand(argv):
     parser = optparse.OptionParser(description='Run a specified RL algorithm on a specified domain.')
-    parser.add_option("-s", "--solver", dest="solver", type="string", default="sarsa",
+    parser.add_option("-s", "--solver", dest="solver", type="string", default="random",
                       help='Solver from ' + str(avs.solvers))
     parser.add_option("-d", "--domain", dest="domain", type="string", default="Gridworld",
                       help='Domain from OpenAI Gym')

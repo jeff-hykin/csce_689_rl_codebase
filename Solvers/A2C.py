@@ -1,3 +1,10 @@
+# Licensing Information:  You are free to use or extend this codebase for
+# educational purposes provided that (1) you do not distribute or publish
+# solutions, (2) you retain this notice, and (3) you provide the following
+# attribution:
+# This CSCE-689 RL assignment codebase was developed at Texas A&M University.
+# The core code base was developed by Guni Sharon (guni@tamu.edu).
+
 import numpy as np
 import keras
 from keras import backend as K
@@ -9,60 +16,82 @@ from keras.models import Model
 from keras.layers.convolutional import Convolution2D
 from skimage.transform import resize
 from skimage import color
-
 from collections import deque
-
 from Solvers.Abstract_Solver import AbstractSolver
 from lib import plotting
 
 
 def actor_loss(deltas):
     def loss(labels, predicted_output):
+        """
+        The loss function for the actor.
+
+        args:
+            deltas: Advantages.
+            labels: True actions (one-hot encoded actions).
+            predicted_output: Predicted actions (action probabilities).
+
+        Use:
+            K.log: Element-wise log.
+            K.mean: Mean of a tensor.
+        """
         ################################
         #   YOUR IMPLEMENTATION HERE   #
         ################################
-        pass        
+
 
     return loss
-        
-keras.losses.actor_loss = actor_loss
+
+def critic_loss(deltas):
+    def loss(labels, predicted_output):
+        """
+        The loss function for the critic
+
+        args:
+            deltas: Advantages.
+            labels: Target values for the critic.
+            predicted_output: Predicted values by the critic.
+
+        Use:
+            K.pow: Element-wise exponentiation.
+            K.mean: Mean of a tensor.
+        """
+        ################################
+        #   YOUR IMPLEMENTATION HERE   #
+        ################################
+
+
+    return loss
 
 class A2C(AbstractSolver):
 
     def __init__(self, env, options):
         super().__init__(env, options)
-        self.state_size = (4,)
+        self.state_size = (self.env.observation_space.shape[0],)
+        self.action_size = self.env.action_space.n
         self.trajectory = []
-        self.actor = self.build_actor()
-        self.critic = self.build_critic()
+        self.actor_critic = self.build_actor_critic()
         self.policy = self.create_greedy_policy()
 
-    def build_actor(self):
+    def build_actor_critic(self):
         deltas = Input(shape=(1,))
-        
+        layers = self.options.layers
+
         states = Input(shape=self.state_size)
-        d1 = Dense(64, activation='relu')(states)
-        d2 = Dense(64, activation='relu')(d1)
-        d3 = Dense(64, activation='relu')(d2)
-        do = Dense(self.env.action_space.n)(d3)
-        probs = Softmax()(do)
+        d = states
+        for l in layers:
+            d = Dense(l, activation='relu')(d)
+        do = Dense(self.action_size)(d)
+        probs = Softmax(name='actor_output')(do)
+        value = Dense(1, activation='linear', name='critic_output')(d)
 
-        actor = Model(inputs=[states, deltas], outputs=probs)
-        actor.compile(optimizer=Adam(lr=self.options.alpha), loss=actor_loss(deltas))
+        model = Model(inputs=[states, deltas], outputs=[probs, value])
+        model.compile(optimizer=Adam(lr=self.options.alpha),
+            loss={'actor_output': actor_loss(deltas),
+                  'critic_output': critic_loss(deltas)},
+            loss_weights={'actor_output': 1.0, 'critic_output': 1.0})
 
-        return actor
-
-    def build_critic(self):
-        states = Input(shape=self.state_size)
-        d1 = Dense(64, activation='relu')(states)
-        d2 = Dense(64, activation='relu')(d1)
-        d3 = Dense(64, activation='relu')(d2)
-        values = Dense(1, activation='linear')(d3)
-
-        critic = Model(inputs=[states], outputs=values)
-        critic.compile(optimizer=Adam(lr=self.options.alpha), loss=huber_loss)
-
-        return critic
+        return model
 
     def create_greedy_policy(self):
         """
@@ -75,7 +104,7 @@ class A2C(AbstractSolver):
         """
 
         def policy_fn(state):
-            return self.actor.predict([[state], np.zeros((1, 1))])[0]
+            return self.actor_critic.predict([[state], np.zeros((1, 1))])[0][0]
 
         return policy_fn
 
@@ -84,14 +113,30 @@ class A2C(AbstractSolver):
         Run a single episode of the A2C algorithm
 
         Use:
+            self.actor_critic: Policy (actor) and value function (critic) network.
+            self.policy(state): Returns action probabilities.
+            self.options.steps: Maximal number of steps per episode.
+            np.random.choice(len(probs), probs): Randomly select an element
+                from probs (a list) based on the probability distribution in probs.
             self.step(action): Performs an action in the env.
-            self.env.reset(): Resets the env. 
+            self.trajectory.append((state, action, next_state, reward)): Add the last
+                transition to the observed trajectory (don't forget to reset the
+                trajectory at the end of each episode).
+            np.zeros_like(): Return an array of zeros with the a given shape.
+            self.env.reset(): Resets the env.
             self.options.gamma: Gamma discount factor.
+            self.actor_critic.predict(): Returns a list of 2 outputs. 1st output is
+                actor output (action probabilities). 2nd output is the critic output
+                (value). Please refer to "create_greedy_policy()" to understand one
+                possible way of using "predict()" correctly.
+            self.actor_critic.fit(): Train the actor-critic network at the end of
+                an episode on the transitions in self.trajectory for exactly 1 epoch.
+                Make sure that the Advantages are discounted.
         """
         ################################
-        #   YOUR IMPLEMENTATION HERE   
+        #   YOUR IMPLEMENTATION HERE
         ################################
-        
+
 
     def __str__(self):
         return "A2C"

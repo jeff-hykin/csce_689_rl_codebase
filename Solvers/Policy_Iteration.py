@@ -1,8 +1,12 @@
+# Licensing Information:  You are free to use or extend this codebase for
+# educational purposes provided that (1) you do not distribute or publish
+# solutions, (2) you retain this notice, and (3) you provide the following
+# attribution:
+# This CSCE-689 RL assignment codebase was developed at Texas A&M University.
+# The core code base was developed by Guni Sharon (guni@tamu.edu).
+
 import numpy as np
-
 from Solvers.Abstract_Solver import AbstractSolver, Statistics
-
-
 #env = FrozenLake-v0
 
 
@@ -22,12 +26,13 @@ class PolicyIteration(AbstractSolver):
             Run a single Policy iteration. Evaluate and improves the policy.
 
             Use:
-                self.options.env: OpenAI gym environment.
+                self.policy: [S, A] shaped matrix representing the policy.
+                self.env: OpenAI env. env.P represents the transition probabilities of the environment.
+                    env.P[s][a] is a list of transition tuples (prob, next_state, reward, done).
+                    env.nS is a number of states in the environment.
+                    env.nA is a number of actions in the environment.
                 self.options.gamma: Gamma discount factor.
-                self.options.epsilon: Chance the sample a random action. Float betwen 0 and 1.
-                new_state, reward, done, _ = self.step(action): To advance one step in the environment
-
-            """
+        """
 
         # Evaluate the current policy
         self.policy_eval()
@@ -42,7 +47,7 @@ class PolicyIteration(AbstractSolver):
             ################################
             #   YOUR IMPLEMENTATION HERE   #
             ################################
-            pass            
+
 
         # In DP methods we don't interact with the environment so we will set the reward to be the sum of state values
         # and the number of steps to -1 representing an invalid value
@@ -103,7 +108,8 @@ class PolicyIteration(AbstractSolver):
         ################################
         #   YOUR IMPLEMENTATION HERE   #
         ################################
-        pass
+
+
     def create_greedy_policy(self):
         """
         Return the currently known policy.
@@ -120,7 +126,7 @@ class PolicyIteration(AbstractSolver):
             for action in range(self.env.nA):
                 for prob, next_state, reward, done in self.env.P[state][action]:
                     Q_sa[action] += prob*(reward + self.options.gamma*self.V[next_state])
-            
+
             policy[np.argmax(Q_sa)] = 1
             return policy
 
