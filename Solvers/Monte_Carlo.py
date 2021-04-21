@@ -28,7 +28,15 @@ class MonteCarlo(AbstractSolver):
         ################################
         #   YOUR IMPLEMENTATION HERE   #
         # Add required fields          #
+        # You are free to add any      #
+        # attribute you deem necessary.#
+        # Just make sure that you don't#
+        # store all the episode for    #
+        # calculating the Q-function.  #
+        # Use a moving average over    #
+        # Q-values instead.            #
         ################################
+
 
 
     def train_episode(self):
@@ -40,6 +48,14 @@ class MonteCarlo(AbstractSolver):
                 self.options.gamma: Gamma discount factor.
                 self.options.epsilon: Chance the sample a random action. Float betwen 0 and 1.
                 new_state, reward, done, _ = self.step(action): To advance one step in the environment
+
+            Note:
+                train_episode is called multiple times from run.py. Within
+                train_episode you need to store the transitions in 1 complete
+                trajectory/episode. Then using the transitions in that episode,
+                update the Q-function. You should NOT store multiple episodes.
+                You should update the Q-function using a moving average instead
+                to take into account the Q-values from the previous episodes.
         """
 
         # Reset the environment

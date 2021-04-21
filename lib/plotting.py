@@ -47,7 +47,7 @@ def plot_value_function(V, title="Value Function"):
         fig = plt.figure(figsize=(20, 10))
         ax = fig.add_subplot(111, projection='3d')
         surf = ax.plot_surface(X, Y, Z, rstride=1, cstride=1,
-                               cmap=matplotlib.cm.coolwarm, vmin=-1.0, vmax=1.0)
+                               cmap=matplotlib.cm.coolwarm, vmin=30, vmax=160)
         ax.set_xlabel('Player Sum')
         ax.set_ylabel('Dealer Showing')
         ax.set_zlabel('Value')

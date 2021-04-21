@@ -81,12 +81,21 @@ class DQN(AbstractSolver):
             self.options.replay_memory_size: Size of the replay memory
             self.options.update_target_estimator_every: Copy parameters from the Q estimator to the
                 target estimator every N steps
-            self.options.batch_size: Size of batches to sample from the replay memory
+            self.options.batch_size: Size of mini-batch to sample from the replay memory
             self.env: OpenAI environment.
             self.options.gamma: Gamma discount factor.
             self.options.epsilon: Chance the sample a random action. Float betwen 0 and 1.
             new_state, reward, done, _ = self.step(action): To advance one step in the environment
             state_size = self.env.observation_space.shape[0]
+            minibatch = random.sample(self.memory, self.options.batch_size)
+                Based on the minibatch of transition, set:
+                    tensor_states
+                    tensor_rewards
+                    tensor_next_states
+                    future_rewards = self.model.predict(tensor_next_states)
+                    x = tensor_states
+                    y = tensor_rewards + self.options.gamma * future_rewards
+                    self.model.fit(x, y, epochs=1)
             self.model: Q network
             self.target_model: target Q network
             self.update_target_model(): update target network weights = Q network weights

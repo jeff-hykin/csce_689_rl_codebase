@@ -83,6 +83,7 @@ def getEnv(domain):
 
 
 def parse_list(string):
+    string.strip()
     string = string[1:-1].split(',') # Change "[0,1,2,3]" to '0', '1', '2', '3'
     l = []
     for n in string:

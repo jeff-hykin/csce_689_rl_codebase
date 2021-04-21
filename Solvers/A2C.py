@@ -6,90 +6,90 @@
 # The core code base was developed by Guni Sharon (guni@tamu.edu).
 
 import numpy as np
-import keras
 from keras import backend as K
-from keras.models import Sequential
-from keras.layers import Dense, Reshape, Flatten, MaxPooling2D, Softmax, Input
+from keras.layers import Dense, Softmax, Input
 from keras.optimizers import Adam
-from keras.losses import huber_loss
 from keras.models import Model
-from keras.layers.convolutional import Convolution2D
-from skimage.transform import resize
-from skimage import color
-from collections import deque
+
+
 from Solvers.Abstract_Solver import AbstractSolver
 from lib import plotting
 
 
-def actor_loss(deltas):
-    def loss(labels, predicted_output):
+def actor_loss():
+    def loss(advantage, predicted_output):
         """
-        The loss function for the actor.
+            The policy gradient loss function.
+            Note that you are required to define the Loss^PG
+            which should be the integral of the policy gradient
+            The "returns" is the one-hot encoded (return - baseline) value for each action a_t
+            ('0' for unchosen actions).
 
-        args:
-            deltas: Advantages.
-            labels: True actions (one-hot encoded actions).
-            predicted_output: Predicted actions (action probabilities).
+            args:
+                advantage: advantage of each action a_t (one-hot encoded).
+                predicted_output: Predicted actions (action probabilities).
 
-        Use:
-            K.log: Element-wise log.
-            K.mean: Mean of a tensor.
-        """
-        ################################
-        #   YOUR IMPLEMENTATION HERE   #
-        ################################
-
-
-    return loss
-
-def critic_loss(deltas):
-    def loss(labels, predicted_output):
-        """
-        The loss function for the critic
-
-        args:
-            deltas: Advantages.
-            labels: Target values for the critic.
-            predicted_output: Predicted values by the critic.
-
-        Use:
-            K.pow: Element-wise exponentiation.
-            K.mean: Mean of a tensor.
+            Use:
+                K.log: Element-wise log.
+                K.sum: Sum of a tensor.
         """
         ################################
         #   YOUR IMPLEMENTATION HERE   #
         ################################
-
+        raise NotImplementedError
 
     return loss
+
+
+def critic_loss():
+    def loss(advantage, predicted_output):
+        """
+            The integral of the critic gradient
+
+            args:
+                advantage: advantage of each action a_t (one-hot encoded).
+                predicted_output: Predicted state value.
+
+            Use:
+                K.sum: Sum of a tensor.
+        """
+        ################################
+        #   YOUR IMPLEMENTATION HERE   #
+        ################################
+        raise NotImplementedError
+
+    return loss
+
 
 class A2C(AbstractSolver):
 
     def __init__(self, env, options):
         super().__init__(env, options)
         self.state_size = (self.env.observation_space.shape[0],)
-        self.action_size = self.env.action_space.n
-        self.trajectory = []
         self.actor_critic = self.build_actor_critic()
         self.policy = self.create_greedy_policy()
 
     def build_actor_critic(self):
-        deltas = Input(shape=(1,))
         layers = self.options.layers
 
         states = Input(shape=self.state_size)
-        d = states
-        for l in layers:
-            d = Dense(l, activation='relu')(d)
-        do = Dense(self.action_size)(d)
-        probs = Softmax(name='actor_output')(do)
-        value = Dense(1, activation='linear', name='critic_output')(d)
+        z = states
+        for l in layers[:-1]:
+            z = Dense(l, activation='relu')(z)
 
-        model = Model(inputs=[states, deltas], outputs=[probs, value])
+        # Actor and critic heads have a seperated final fully connected layer
+        z_a = Dense(layers[-1], activation='tanh')(z)
+        z_a = Dense(self.env.action_space.n, activation='tanh')(z_a)
+        z_c = Dense(layers[-1], activation='relu')(z)
+
+        probs = Softmax(name='actor_output')(z_a)
+        value = Dense(1, activation='linear', name='critic_output')(z_c)
+
+        model = Model(inputs=[states], outputs=[probs, value])
         model.compile(optimizer=Adam(lr=self.options.alpha),
-            loss={'actor_output': actor_loss(deltas),
-                  'critic_output': critic_loss(deltas)},
-            loss_weights={'actor_output': 1.0, 'critic_output': 1.0})
+                      loss={'actor_output': actor_loss(),
+                            'critic_output': critic_loss()},
+                      loss_weights={'actor_output': 1.0, 'critic_output': 1.0})
 
         return model
 
@@ -104,7 +104,7 @@ class A2C(AbstractSolver):
         """
 
         def policy_fn(state):
-            return self.actor_critic.predict([[state], np.zeros((1, 1))])[0][0]
+            return self.actor_critic.predict([[state]])[0][0]
 
         return policy_fn
 
@@ -113,30 +113,39 @@ class A2C(AbstractSolver):
         Run a single episode of the A2C algorithm
 
         Use:
-            self.actor_critic: Policy (actor) and value function (critic) network.
+            self.actor_critic: actor-critic network that is being learned.
             self.policy(state): Returns action probabilities.
             self.options.steps: Maximal number of steps per episode.
             np.random.choice(len(probs), probs): Randomly select an element
                 from probs (a list) based on the probability distribution in probs.
             self.step(action): Performs an action in the env.
-            self.trajectory.append((state, action, next_state, reward)): Add the last
-                transition to the observed trajectory (don't forget to reset the
-                trajectory at the end of each episode).
-            np.zeros_like(): Return an array of zeros with the a given shape.
+            np.zeros(): Return an array of zeros with the a given shape.
             self.env.reset(): Resets the env.
             self.options.gamma: Gamma discount factor.
-            self.actor_critic.predict(): Returns a list of 2 outputs. 1st output is
-                actor output (action probabilities). 2nd output is the critic output
-                (value). Please refer to "create_greedy_policy()" to understand one
-                possible way of using "predict()" correctly.
-            self.actor_critic.fit(): Train the actor-critic network at the end of
-                an episode on the transitions in self.trajectory for exactly 1 epoch.
-                Make sure that the Advantages are discounted.
+            self.actor_critic.fit(): Train the policy network at the end of an episode on the
+                observed transitions for exactly 1 epoch.
+            self.actor_critic.predict([[state]])[1][0]: the predicted state value for 'state'
         """
-        ################################
-        #   YOUR IMPLEMENTATION HERE
-        ################################
 
+        state = self.env.reset()
+        states=[]
+        actions = []
+        deltas=[]
+        for _ in range(self.options.steps):
+                        ################################
+                        #   YOUR IMPLEMENTATION HERE
+                        ################################
+
+        # One-hot encoding for actions
+        actions_one_hot = np.zeros([len(actions), self.env.action_space.n])
+        actions_one_hot[np.arange(len(actions)), actions] = 1
+
+        deltas = np.array(deltas)
+
+        # Update actor critic
+        self.actor_critic.fit(x=[np.array(states)],
+                              y={'actor_output': deltas * actions_one_hot, 'critic_output': deltas},
+                              epochs=1, batch_size=self.options.batch_size, verbose=0)
 
     def __str__(self):
         return "A2C"

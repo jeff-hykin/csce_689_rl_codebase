@@ -25,6 +25,8 @@ class ValueIteration(AbstractSolver):
 
             Use:
                 self.env: OpenAI env. env.P represents the transition probabilities of the environment.
+                self.env: OpenAI environment.
+                    env.P represents the transition probabilities of the environment.
                     env.P[s][a] is a list of transition tuples (prob, next_state, reward, done).
                     env.nS is a number of states in the environment.
                     env.nA is a number of actions in the environment.

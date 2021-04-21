@@ -110,6 +110,8 @@ class ApproxQLearning(QLearning):
             self.options.alpha: TD learning rate.
             self.options.epsilon: Chance to sample a random action. Float between 0 and 1.
             self.estimator: The Q-function approximator
+            self.estimator.predict(s,a): Returns the predicted q value for a given s,a pair
+            self.estimator.update(s,a,y): Trains the estimator towards Q(s,a)=y
             new_state, reward, done, _ = self.step(action): To advance one step in the environment
         """
 
@@ -126,7 +128,7 @@ class ApproxQLearning(QLearning):
 
     def create_greedy_policy(self):
         """
-        Creates a greedy policy based on Q values from self.estimator
+        Creates a greedy policy based on Q values from self.estimator.predict(s,a=None)
 
         Returns:
             A function that takes an observation as input and returns a vector
@@ -150,6 +152,7 @@ class ApproxQLearning(QLearning):
             self.options.epsilon: The probability to select a random action . float between 0 and 1.
             self.env.action_space.n: Number of actions in the environment.
             self.estimator: The Q-values estimator
+            self.estimator.predict(s): Returns an NP array with an entry Q(s,a) for each a in A
 
         Returns:
             A function that takes the observation as an argument and returns

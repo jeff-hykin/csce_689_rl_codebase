@@ -1,3 +1,2 @@
-# Setup
-
-Everything is detailed in the `documentation/SETUP.md`!
+# CSCE-689: Reinforcement Learning
+Assignments
