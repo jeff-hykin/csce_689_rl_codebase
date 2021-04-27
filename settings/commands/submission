@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-echo Submission should include only the associated file zipped to a file named with your UIN.
-echo For example: '123123123.zip'.
-echo 'In all the assignments,
-    sections you are required to complete
-        have been marked "YOUR IMPLEMENTATION HERE".
-    Read the associated code comments for details.
-'
