@@ -78,7 +78,7 @@ class ValueIteration(AbstractSolver):
             #            Compute self.V here                  #
             # Do a one-step lookahead to find the best action #
             ###################################################
-
+            raise NotImplementedError
 
         # Dont worry about this part
         self.statistics[Statistics.Rewards.value] = np.sum(self.V)
@@ -140,6 +140,7 @@ class ValueIteration(AbstractSolver):
             ################################
             #   YOUR IMPLEMENTATION HERE   #
             ################################
+            raise NotImplementedError
         
         return policy_fn
 
@@ -193,7 +194,7 @@ class AsynchVI(ValueIteration):
         # Do a one-step lookahead to find the best action       #
         # Update the value function. Ref: Sutton book eq. 4.10. #
         #########################################################
-
+        raise NotImplementedError
 
         # you can ignore this part
         self.statistics[Statistics.Rewards.value] = np.sum(self.V)
