@@ -14,19 +14,33 @@ import os
 # test your code
 # 
 if __name__ == 'main':
+    # 
+    # testing value iteration
+    # 
     print("#")
-    print("# test 1: Should converge in 3 episodes with reward of -26.24.")
+    print("# test 1.1: Should converge in 3 episodes with reward of -26.24.")
     print("#")
     os.system("python run.py -s vi -d Gridworld -e 100 -g 0.9")
     print("#")
-    print("# test 2: Should converge in 3 episodes with reward of -18.64.")
+    print("# test 1.2: Should converge in 3 episodes with reward of -18.64.")
     print("#")
     os.system("python run.py -s vi -d Gridworld -e 100 -g 0.4")
     print("#")
-    print("# test 3: Should achieve a reward of 2.176 after 53 episodes.")
+    print("# test 1.3: Should achieve a reward of 2.176 after 53 episodes.")
     print("#")
     os.system("python run.py -s vi -d FrozenLake-v0 -e 100 -g 0.9  ")
-
+    
+    # 
+    # testing async value iteration
+    # 
+    print("# ")
+    print("# test 2.1: Should reach a reward of 0.637 after 50 episodes.")
+    print("# ")
+    os.system("python run.py -s avi -d FrozenLake-v0 -e 100 -g 0.5")
+    print("# ")
+    print("# test 2.2: Should reach a reward of 0.978 after 88 episodes.")
+    print("# ")
+    os.system("python run.py -s avi -d FrozenLake-v0 -e 100 -g 0.7")
 
 class ValueIteration(AbstractSolver):
 
