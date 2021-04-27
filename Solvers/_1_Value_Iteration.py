@@ -170,17 +170,21 @@ class AsynchVI(ValueIteration):
 
     def train_episode(self):
         """
-        Run a *single* update for Asynchronous Value Iteration Algorithm (using prioritized sweeping).
-        Updtae only one state, the one with the highest priority
-
-        Use:
-            self.env: OpenAI env. env.P represents the transition probabilities of the environment.
-                env.P[s][a] is a list of transition tuples (prob, next_state, reward, done).
-                env.nS is a number of states in the environment.
-                env.nA is a number of actions in the environment.
-            self.options.gamma: Gamma discount factor.
-            self.pred[s]: a list of states leading to state s in one step with probability > 0
-            self.pq: list of States to be updated by priority
+        Where/What is this?
+            same as other `train_episode` function above, but for value iteration
+        
+        New Inputs:
+        
+            self.pq.update(state, priority)
+                state is a int like normal
+                priority is a number BUT more-negative == higher priority
+                
+            state = self.pq.pop()
+                this gets the state with the highest priority
+        
+        Outputs:
+            self.V
+                this is still the same as the previous 
         """
 
         #########################################################
@@ -191,8 +195,7 @@ class AsynchVI(ValueIteration):
         #########################################################
 
 
-        # In DP methods we don't interact with the environment so we will set the reward to be the sum of state values
-        # and the number of steps to -1 representing an invalid value
+        # you can ignore this part
         self.statistics[Statistics.Rewards.value] = np.sum(self.V)
         self.statistics[Statistics.Steps.value] = -1
 
