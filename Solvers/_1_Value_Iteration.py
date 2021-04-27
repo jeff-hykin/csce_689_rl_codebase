@@ -10,6 +10,21 @@ import heapq
 from Solvers.Abstract_Solver import AbstractSolver, Statistics
 
 
+
+import gym
+env = gym.make("CartPole-v1")
+observation = env.reset()
+for _ in range(1000):
+    env.render()
+    action = env.action_space.sample() # your agent here (this takes random actions)
+    observation, reward, done, info = env.step(action)
+
+    if done:
+        observation = env.reset()
+
+env.close()
+
+
 class ValueIteration(AbstractSolver):
 
     def __init__(self,env,options):
@@ -23,10 +38,21 @@ class ValueIteration(AbstractSolver):
         """
             Run a single episode of the Value Iteration Algorithm.
 
-            Use:
-                self.env: OpenAI env. env.P represents the transition probabilities of the environment.
-                self.env: OpenAI environment.
-                    env.P represents the transition probabilities of the environment.
+            Available inputs:
+                state = self.env.reset():
+                    returns a state which is just an integer index
+                    (not all problems have state as an index, but this one does)
+                
+                state = self.env.reset():
+                
+                self.env:
+                    OpenAI env. env.P represents the transition probabilities of the environment.
+                
+                self.env:
+                    OpenAI environment.
+                    
+                    env.P:
+                        represents the transition probabilities of the environment
                     env.P[s][a] is a list of transition tuples (prob, next_state, reward, done).
                     env.nS is a number of states in the environment.
                     env.nA is a number of actions in the environment.

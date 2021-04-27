@@ -5,44 +5,45 @@
 # This CSCE-689 RL assignment codebase was developed at Texas A&M University.
 # The core code base was developed by Guni Sharon (guni@tamu.edu).
 
-solvers = ['random', 'vi', 'pi', 'mc','avi', 'mcis', 'ql', 'sarsa', 'aql', 'dqn', 'reinforce', 'A2C']
+solvers = ['random', 'vi', 'pi', 'mc','avi', 'mcis', 'ql', 'sarsa', 'aql', 'dqn', 'reinforce', 'a2c']
 
 def get_solver_class(name):
+    name = name.lower()
     if name == solvers[0]:
         from Solvers.Random_Walk import RandomWalk
         return RandomWalk
     elif name == solvers[1]:
-        from Solvers.Value_Iteration import ValueIteration
+        from Solvers._1_Value_Iteration import ValueIteration
         return ValueIteration
     elif name == solvers[2]:
-        from Solvers.Policy_Iteration import PolicyIteration
+        from Solvers._2_Policy_Iteration import PolicyIteration
         return PolicyIteration
     elif name == solvers[3]:
-        from Solvers.Monte_Carlo import MonteCarlo
+        from Solvers._3_Monte_Carlo import MonteCarlo
         return MonteCarlo
     elif name == solvers[4]:
-        from Solvers.Value_Iteration import AsynchVI
+        from Solvers._1_Value_Iteration import AsynchVI
         return AsynchVI
     elif name == solvers[5]:
-        from Solvers.Monte_Carlo import OffPolicyMC
+        from Solvers._3_Monte_Carlo import OffPolicyMC
         return OffPolicyMC
     elif name == solvers[6]:
-        from Solvers.Q_Learning import QLearning
+        from Solvers._4_Q_Learning import QLearning
         return QLearning
     elif name == solvers[7]:
-        from Solvers.SARSA import Sarsa
+        from Solvers._5_SARSA import Sarsa
         return Sarsa
     elif name == solvers[8]:
-        from Solvers.Q_Learning import ApproxQLearning
+        from Solvers._4_Q_Learning import ApproxQLearning
         return ApproxQLearning
     elif name == solvers[9]:
-        from Solvers.DQN import DQN
+        from Solvers._6_DQN import DQN
         return DQN
     elif name == solvers[10]:
-        from Solvers.REINFORCE import Reinforce
+        from Solvers._7_REINFORCE import Reinforce
         return Reinforce
     elif name == solvers[11]:
-        from Solvers.A2C import A2C
+        from Solvers._8_A2C import A2C
         return A2C
     else:
         assert False, "unknown solver name {}. solver must be from {}".format(name, str(solvers))
