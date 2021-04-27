@@ -8,6 +8,25 @@
 import numpy as np
 import heapq
 from Solvers.Abstract_Solver import AbstractSolver, Statistics
+import os
+
+# 
+# test your code
+# 
+if __name__ == 'main':
+    print("#")
+    print("# test 1: Should converge in 3 episodes with reward of -26.24.")
+    print("#")
+    os.system("python run.py -s vi -d Gridworld -e 100 -g 0.9")
+    print("#")
+    print("# test 2: Should converge in 3 episodes with reward of -18.64.")
+    print("#")
+    os.system("python run.py -s vi -d Gridworld -e 100 -g 0.4")
+    print("#")
+    print("# test 3: Should achieve a reward of 2.176 after 53 episodes.")
+    print("#")
+    os.system("python run.py -s vi -d FrozenLake-v0 -e 100 -g 0.9  ")
+
 
 class ValueIteration(AbstractSolver):
 
