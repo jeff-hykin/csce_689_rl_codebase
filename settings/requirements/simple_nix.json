@@ -9,10 +9,6 @@
         },
         "packages": [
             {
-                "load": "nodejs",
-                "from": "a332da8588aeea4feb9359d23f58d95520899e3c"
-            },
-            {
                 "load": "gcc-unwrapped",
                 "from": "046f8835dcb9082beb75bb471c28c832e1b067b6"
             },

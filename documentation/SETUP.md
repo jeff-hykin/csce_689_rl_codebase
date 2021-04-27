@@ -20,6 +20,8 @@ The managed environment is very reliable way to setup.<br>
 * Install [nix](https://nixos.org/guides/install-nix.html), more detailed guide [here](https://nixos.org/manual/nix/stable/#chap-installation)
     * Just run the following in your console/terminal app
         * `sudo apt-get update 2>/dev/null`
+        * If you're on MacOS Big Sur
+            *  see [this](https://duan.ca/2020/12/13/nix-on-macos-11-big-sur/) tutorial
         * If you're on MacOS Catalina, run:
             * `sh <(curl -L https://nixos.org/nix/install) --darwin-use-unencrypted-nix-store-volume `
         * If you're not, run:
@@ -30,18 +32,16 @@ The managed environment is very reliable way to setup.<br>
     * (if you don't have git just run `nix-env -i git`)
 * Clone/Open the project
     * `cd wherever-you-want-to-save-this-project`<br>
-    * `git clone https://github.com/jeff-hykin/cpp-textmate-grammar`
-    * `cd cpp-textmate-grammar`
+    * `git clone https://github.com/jeff-hykin/*this-repo*`
+    * `cd *this-repo*`
 * Actually run some code
-    * run `nix-shell` to get into the project environment
+    * run `./shell` to get into the project environment
         * Note: this will almost certainly take a while the first time because it will auto-install exact versions of everything: `node`, `python`, `ruby`, all modules for them, etc
     * run `commands` to see all of the project commands
 
 
 # Manual project setup
 
-1. Install node
-2. Install python3
-3. Install the python modules with `pip3 install -r requirements.txt`
-4. Install the node modules with `npm install`
-5. Run the script `settings/commands/commands` to see avalible commands
+- Install python3
+- Install the python modules with `python3 -m pip install -r requirements.txt`
+- Run the script `./settings/commands/commands` to see avalible commands
