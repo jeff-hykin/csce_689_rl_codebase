@@ -56,8 +56,8 @@ class ValueIteration(AbstractSolver):
             What/Where is this function?
                 Imagine the for loop from the gym intro (_0_Gym_Introduction.py)
                 This function effectively gets called 1 time for each
-                loop/iteration of that for loop.
-                It is just in a class with more variables and logging
+                iteration of that for loop.
+                It is just in a class to have more variables and logging
             
             Inputs: (Available/Useful variables)
                 self.env
@@ -91,7 +91,7 @@ class ValueIteration(AbstractSolver):
             
             Outputs: (what you need to output/update)
                 self.V:
-                    This should be a dictionary
+                    This is a numpy array, but you can think of it as a dictionary
                     `self.V[state]` should return a floating point value that
                     represents the value of a state. This value should become 
                     more accurate with each episode.
